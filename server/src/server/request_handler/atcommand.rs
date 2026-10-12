@@ -123,6 +123,8 @@ pub fn handle_atcommand(server: &Server, context: Request, packet: &PacketCzPlay
             packet_zc_notify_playerchat.set_msg(format!("{symbol}{command} is an Unknown Command."));
         }
     }
+    // Client reads the last byte as the string terminator.
+    packet_zc_notify_playerchat.msg.push('\0');
     packet_zc_notify_playerchat.set_packet_length((4 + packet_zc_notify_playerchat.msg.len()) as i16);
     packet_zc_notify_playerchat.fill_raw();
     socket_send!(context, packet_zc_notify_playerchat);
